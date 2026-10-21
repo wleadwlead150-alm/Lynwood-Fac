@@ -6,13 +6,13 @@
   <title>فصائل Lynwood | Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
       --bg-main: #0B0F19;
-      --card-bg: rgba(22, 29, 47, 0.9);
-      --card-border: rgba(255, 255, 255, 0.1);
+      --card-bg: rgba(22, 29, 47, 0.95);
+      --card-border: rgba(255, 255, 255, 0.12);
       --primary: #4F46E5;
       --police-blue: #2563EB;
       --army-green: #10B981;
@@ -29,10 +29,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-image: radial-gradient(circle at 50% 10%, rgba(79, 70, 229, 0.15), transparent 60%);
+      background-image: radial-gradient(circle at 50% 10%, rgba(79, 70, 229, 0.18), transparent 65%);
       padding: 15px;
     }
-    .screen { display: none; width: 100%; max-width: 500px; }
+    .screen { display: none; width: 100%; max-width: 520px; }
     .screen.active { display: block; animation: fadeIn 0.3s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -40,12 +40,12 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 20px;
-      padding: 40px 25px;
+      padding: 30px 20px;
       text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      backdrop-filter: blur(12px);
     }
-    .lobby-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 30px; text-shadow: 0 0 15px rgba(255,255,255,0.2); }
+    .lobby-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 25px; text-shadow: 0 0 15px rgba(255,255,255,0.2); }
     .btn-complete {
       background: linear-gradient(135deg, #10B981, #059669);
       color: white;
@@ -60,12 +60,12 @@
     }
     .btn-complete:hover { transform: scale(1.03); }
 
-    .factions-container { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+    .factions-container { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; }
     .faction-card {
-      background: rgba(30, 41, 59, 0.8);
+      background: rgba(30, 41, 59, 0.85);
       border: 1px solid var(--card-border);
       border-radius: 15px;
-      padding: 20px;
+      padding: 18px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -76,16 +76,18 @@
 
     .menu-list { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
     .menu-item {
-      background: rgba(30, 41, 59, 0.7);
+      background: rgba(30, 41, 59, 0.75);
       border: 1px solid var(--card-border);
       border-radius: 12px;
-      padding: 16px 20px;
+      padding: 15px 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
       font-weight: 700;
+      transition: all 0.2s;
     }
+    .menu-item:hover { background: rgba(51, 65, 85, 0.9); }
     .menu-item .arrow { color: #818CF8; font-size: 0.9rem; }
 
     .bottom-actions { display: flex; gap: 10px; margin-top: 20px; }
@@ -109,51 +111,60 @@
       justify-content: center;
       align-items: center;
       gap: 10px;
-      margin: 20px 0 10px 0;
+      margin: 18px 0 10px 0;
       box-shadow: 0 4px 15px rgba(230, 106, 21, 0.4);
     }
 
     .modal-overlay {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.85);
       display: none; justify-content: center; align-items: center; z-index: 999;
       padding: 15px;
     }
     .modal-overlay.active { display: flex; }
     .modal-card {
       background: #111827; border: 1px solid var(--card-border);
-      border-radius: 20px; width: 100%; max-width: 480px; padding: 25px; max-height: 90vh; overflow-y: auto;
+      border-radius: 20px; width: 100%; max-width: 480px; padding: 22px; max-height: 92vh; overflow-y: auto;
     }
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; margin-bottom: 6px; font-size: 0.9rem; color: var(--text-muted); }
+    .form-group { margin-bottom: 14px; text-align: right; }
+    .form-group label { display: block; margin-bottom: 6px; font-size: 0.88rem; color: var(--text-muted); font-weight: 600; }
     .form-control {
       width: 100%; background: #1F2937; border: 1px solid #374151; color: white;
-      padding: 12px; border-radius: 10px; outline: none; font-size: 0.95rem;
+      padding: 11px; border-radius: 10px; outline: none; font-size: 0.95rem;
     }
     .btn-submit {
-      width: 100%; background: #6366F1; color: white; border: none; padding: 14px;
-      border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 1rem;
+      width: 100%; background: #6366F1; color: white; border: none; padding: 13px;
+      border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 1rem; margin-top: 5px;
     }
 
     .content-box {
       background: rgba(17, 24, 39, 0.95);
       border: 1px solid var(--card-border);
       border-radius: 15px;
-      padding: 20px;
+      padding: 18px;
       max-height: 380px;
       overflow-y: auto;
       font-size: 0.92rem;
-      line-height: 1.7;
+      line-height: 1.8;
+      text-align: right;
     }
-    .team-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    .team-table th, .team-table td { border: 1px solid #374151; padding: 8px; text-align: center; font-size: 0.85rem; }
+    .content-box h3 { color: #60A5FA; margin: 15px 0 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px; }
+    .content-box ul { padding-right: 18px; margin-bottom: 12px; }
+    .content-box li { margin-bottom: 6px; }
+
+    .team-table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 15px; }
+    .team-table th, .team-table td { border: 1px solid #374151; padding: 8px 5px; text-align: center; font-size: 0.82rem; }
     .team-table th { background: #1F2937; color: #60A5FA; }
-    
+
     .cmd-item {
-      background: #1F2937; padding: 10px; border-radius: 8px; margin-bottom: 8px;
-      display: flex; justify-content: space-between; align-items: center;
+      background: #1F2937; padding: 10px 12px; border-radius: 8px; margin-bottom: 8px;
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      border-right: 3px solid #6366F1;
     }
-    .btn-copy { background: #374151; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+    .cmd-text { font-family: monospace; font-size: 0.88rem; color: #E0E7FF; word-break: break-word; }
+    .btn-copy { background: #374151; color: white; border: none; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 700; }
+    .btn-copy:hover { background: #4F46E5; }
+    .badge-fine { background: #DC2626; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; margin-right: 5px; }
   </style>
 </head>
 <body>
@@ -172,7 +183,7 @@
       <h2 style="text-align: center; margin-bottom: 20px;">إختر الفصيل المفضل</h2>
       <div class="factions-container">
         <div class="faction-card" onclick="selectFaction('police')">
-          <div><h3 style="color:#60A5FA;">فصيل الشرطة</h3><p style="font-size:0.8rem; color:#9CA3AF;">Police Department</p></div>
+          <div><h3 style="color:#60A5FA;">فصيل الشرطة</h3><p style="font-size:0.8rem; color:#9CA3AF;">Police Department (PD)</p></div>
           <i class="fa-solid fa-shield-halved" style="font-size: 1.5rem; color:#60A5FA;"></i>
         </div>
         <div class="faction-card" onclick="selectFaction('army')">
@@ -199,11 +210,11 @@
       <div class="menu-list">
         <div class="menu-item" onclick="openSection('rules')"><span>قوانين الفصيل</span><span class="arrow">عرض ←</span></div>
         <div class="menu-item" onclick="openSection('internal')"><span>القوانين الداخلية</span><span class="arrow">عرض ←</span></div>
-        <div class="menu-item" onclick="openSection('promo')"><span>نظام الترقية</span><span class="arrow">عرض ←</span></div>
-        <div class="menu-item" onclick="openSection('teams')"><span>فرق الفصيل</span><span class="arrow">عرض ←</span></div>
-        <div class="menu-item" onclick="openSection('rp')"><span>قواعد اللعب التمثيلي</span><span class="arrow">عرض ←</span></div>
+        <div class="menu-item" onclick="openSection('promo')"><span>نظام الترقية والتهدئة</span><span class="arrow">عرض ←</span></div>
+        <div class="menu-item" onclick="openSection('teams')"><span>فرق الفصيل والمهام</span><span class="arrow">عرض ←</span></div>
+        <div class="menu-item" onclick="openSection('rp')"><span>قواعد اللعب التمثيلي (RP)</span><span class="arrow">عرض ←</span></div>
         <div class="menu-item" onclick="openSection('command')"><span>القيادات</span><span class="arrow">عرض ←</span></div>
-        <div class="menu-item" onclick="openSection('micro')"><span>المايكرو</span><span class="arrow">عرض ←</span></div>
+        <div class="menu-item" onclick="openSection('micro')"><span>المايكرو والمخالفات</span><span class="arrow">عرض ←</span></div>
       </div>
 
       <div class="bottom-actions">
@@ -220,7 +231,7 @@
       <h2 id="content-title" style="text-align: center; margin-bottom: 15px;">عنوان القسم</h2>
       
       <div id="content-body" class="content-box">
-        <!-- Text content dynamically injected -->
+        <!-- Content inject -->
       </div>
 
       <button class="btn-feedback" onclick="openModal()">
@@ -238,7 +249,7 @@
   <div id="modal-feedback" class="modal-overlay">
     <div class="modal-card">
       <h3 style="text-align: center; margin-bottom: 5px;">شاركنا برأيك أو ملاحظتك</h3>
-      <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 20px;">سيتم إرسال ملاحظاتك وتقييمك مباشرة لإدارة الفصائل</p>
+      <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 18px;">سيتم إرسال ملاحظاتك وتقييمك مباشرة لإدارة الفصائل</p>
       
       <form onsubmit="submitForm(event)">
         <div class="form-group">
@@ -255,11 +266,11 @@
           <select id="form-section" class="form-control">
             <option value="قوانين الفصيل">قوانين الفصيل</option>
             <option value="القوانين الداخلية">القوانين الداخلية</option>
-            <option value="نظام الترقية">نظام الترقية</option>
-            <option value="فرق الفصيل">فرق الفصيل</option>
-            <option value="قواعد اللعب التمثيلي">قواعد اللعب التمثيلي</option>
+            <option value="نظام الترقية والتهدئة">نظام الترقية والتهدئة</option>
+            <option value="فرق الفصيل والمهام">فرق الفصيل والمهام</option>
+            <option value="قواعد اللعب التمثيلي (RP)">قواعد اللعب التمثيلي (RP)</option>
             <option value="القيادات">القيادات</option>
-            <option value="المايكرو">المايكرو</option>
+            <option value="المايكرو والمخالفات">المايكرو والمخالفات</option>
           </select>
         </div>
 
@@ -310,11 +321,11 @@
       const titles = {
         rules: 'قوانين الفصيل',
         internal: 'القوانين الداخلية',
-        promo: 'نظام الترقية',
-        teams: 'فرق الفصيل',
-        rp: 'قواعد اللعب التمثيلي',
+        promo: 'نظام الترقية والتهدئة',
+        teams: 'فرق الفصيل والمهام',
+        rp: 'قواعد اللعب التمثيلي (RP)',
         command: 'القيادات',
-        micro: 'أوامر المايكرو'
+        micro: 'المايكرو والمخالفات'
       };
 
       document.getElementById('content-subtitle').innerText = factionNames[currentFaction];
@@ -324,45 +335,351 @@
     }
 
     function getContentData(f, s) {
+      // Common RP Rules
+      const commonRP = `
+        <h3>📌 RP قواعد اللعب التمثيلي الأساسية</h3>
+        <b>اللعب غير التمثيلي (NRP):</b>
+        <ul>
+          <li>1. استدراج الشرطة - استفزاز خدمات الطوارئ بدون سبب واقعي.</li>
+          <li>2. استدراج الجنود - استفزاز أعضاء الجيش.</li>
+          <li>3. يمنع التجمع بالقرب من بوابة القاعدة العسكرية إلا خلال الأحداث.</li>
+          <li>4. لا يمكنك سحب الأسلحة بحضور الشرطة/الجيش (يحق لهم الاعتقال/إطلاق النار).</li>
+          <li>5. حمل الأسلحة علناً في المدينة ممنوع.</li>
+          <li>6. مهاجمة ضابط شرطة دون أن تكون مطلوباً.</li>
+          <li>7. أخذ رجال الشرطة والجنود كرهائن.</li>
+          <li>8. القتل الرحيم - طلب قتلك من قبل صديق.</li>
+          <li>9. القيام بحركات بهلوانية غير واقعية بالمركبات.</li>
+          <li>10. استدعاء المركبات في الماء.</li>
+          <li>11. السباحة في الماء لمدة غير واقعية أثناء المطاردة.</li>
+          <li>12. الانفصال عن اللعبة أثناء RP يتطلب العودة واستئناف اللعب.</li>
+          <li>13. تجاهل أوامر RP الموجهة مثل /do.</li>
+          <li>14. الخروج المتكرر عن الشخصية (OOC).</li>
+          <li>15. قاعدة الحياة الجديدة (NLR): نسيان كل ما حدث قبل 15 دقيقة من موتك.</li>
+          <li>16. انتظار اللاعبين عند المستشفى لقتالهم.</li>
+          <li>17. وجوب إظهار الخوف والاحترام لسلطات إنفاذ القانون.</li>
+          <li>18. القيادة بسرعات مفرطة والاصطدام المستمر.</li>
+          <li>19. الاصطدام ثم القيادة بعيداً دون تمثيل الحادث.</li>
+        </ul>
+        <h3>😱 لعب دور الخوف (FRP)</h3>
+        <ul>
+          <li>توجيه سلاح نحوك من مسافة قريبة أثناء ترجلك أو تواجدك بمركبة متوقفة.</li>
+          <li>حتى لو خفض المعتدي سلاحه للكتابة، حياتك تظل في خطر مباشر.</li>
+          <li>قيادة مركبة خلال تبادل إطلاق نار نشط لأكثر من مرة.</li>
+        </ul>
+        <h3>⚡ اللعب بأفضلية (Powergaming)</h3>
+        <ul>
+          <li>البقاء داخل المركبة أثناء توجيه السلاح نحوك لاستغلال عدم إصابتك.</li>
+          <li>لعب أدوار قسري لا يمنح الطرف الآخر فرصة للرد.</li>
+          <li>امتلاك قوة خارقة أو استخدام معلومات من خارج اللعبة (MG).</li>
+        </ul>`;
+
       if (f === 'police') {
-        if (s === 'command') return `<b>قائد فصيل الشرطة:</b> Diva Raghad<br><b>النواب:</b> Al Sabe - Al Mohammed`;
+        if (s === 'command') return `
+          <h3>👮 قيادة فصيل الشرطة</h3>
+          <p><b>القائد:</b> Diva Raghad</p>
+          <p><b>النواب:</b> Al Sabe - Al Mohammed</p>`;
+
         if (s === 'teams') return `
+          <h3>📋 ملخص مهام فرق الشرطة القيادية</h3>
+          <ul>
+            <li><b>1. فريق المقابلات:</b> إجراء المقابلات للمتقدمين الجدد واختيار العناصر المناسبة.</li>
+            <li><b>2. فريق الإرشاد (FTO):</b> تدريب الأعضاء الجدد وتعريفهم بالأنظمة والإجراءات الميدانية.</li>
+            <li><b>3. فريق أمن المنشآت:</b> حماية المنشآت والمرافق الحكومية وتنظيم الحراسة.</li>
+            <li><b>4. فريق الدوريات:</b> تسيير الدوريات بالمدينة ومتابعة البلاغات والمخالفات.</li>
+            <li><b>5. فريق الإعلام والفعاليات:</b> تنظيم الفعاليات وتوثيق الإنجازات والتغطيات.</li>
+            <li><b>6. فريق القوات الخاصة:</b> تنفيذ المهام عالية الخطورة والعمليات الخاصة.</li>
+            <li><b>7. فريق السوات (SWAT):</b> التدخل في المواقف المسلحة واحتجاز الرهائن.</li>
+            <li><b>8. فريق الفحص:</b> إجراء الفحوصات والاختبارات وتقييم جاهزية الأعضاء.</li>
+          </ul>
+          <h3>📊 جدول الفرق القيادية</h3>
           <table class="team-table">
             <tr><th>م</th><th>اسم الفريق</th><th>القائد</th><th>النواب</th></tr>
-            <tr><td>1</td><td>المقابلات</td><td>Al Tayeppp</td><td>Nox Ksa - Mjeed Alanzi</td></tr>
+            <tr><td>1</td><td>المقابلات</td><td>Al Tayeppp</td><td>Nox Ksa - Mjeed Alanzi - Nooura Ksa - Bu Dahm</td></tr>
             <tr><td>2</td><td>الإرشاد</td><td>Pablo Gaviria</td><td>Al Hazem - Al Abbas</td></tr>
             <tr><td>3</td><td>أمن المنشآت</td><td>Don Vego</td><td>Abu Tala - Nasser Nss</td></tr>
-            <tr><td>4</td><td>الدوريات</td><td>Kakashi Vip</td><td>Hadeel Ksa - Al Krdalli</td></tr>
+            <tr><td>4</td><td>الدوريات</td><td>Kakashi Vip</td><td>Hadeel Ksa - Al Krdalli - Baba Gntl</td></tr>
             <tr><td>5</td><td>الإعلام والفعاليات</td><td>Lioness Mb</td><td>Sara Carmella</td></tr>
-            <tr><td>6</td><td>القوات الخاصة</td><td>Leader Abdo</td><td>Yousef Kwt - Al Shbh</td></tr>
-            <tr><td>7</td><td>السوات SWAT</td><td>Zedan Ksa</td><td>Al Taba - Mshary Ksa</td></tr>
+            <tr><td>6</td><td>القوات الخاصة</td><td>Leader Abdo</td><td>Yousef Kwt - Al Shbh - Al Jabri</td></tr>
+            <tr><td>7</td><td>السوات (SWAT)</td><td>Zedan Ksa</td><td>Al Taba - Mshary Ksa - Al Asadi</td></tr>
             <tr><td>8</td><td>الفحص</td><td>Al Osos</td><td>Korya Ly - Al Mado</td></tr>
           </table>`;
+
+        if (s === 'internal') return `
+          <h3>🚨 القوانين الداخلية لفصيل الشرطة (PD)</h3>
+          <ul>
+            <li><b>قانون 1:</b> وقت المقابلات يمنع الصعود للطابق 1 و2 لغير المعنيين (العقوبة: توبيخ).</li>
+            <li><b>قانون 2:</b> ممنوع الاعتقال لرتبة 0 و1 (العقوبة: تحذير أو توبيخ).</li>
+            <li><b>قانون 3:</b> يمنع ترك السيارات الشخصية بشكل عشوائي بالطابق الأرضي (العقوبة: توبيخ).</li>
+            <li><b>قانون 4:</b> يسمح للقائد والنواب بتفعيل فعاليات التراشق والتيزر والأسئلة.</li>
+            <li><b>قانون 5:</b> ممنوع تخريب الاصطفاف أو خلق أجواء سامة (العقوبة: توبيخ).</li>
+            <li><b>قانون 6:</b> ممنوع التحرك/الرقص/التحدث أثناء الاصطفاف (العقوبة: تحذير).</li>
+            <li><b>قانون 7:</b> يمنع التواجد بغرفة السجن أكثر من 5 دقائق إلا للتسليم (العقوبة: توبيخ).</li>
+            <li><b>قانون 8:</b> يمنع إطلاق النار داخل المركز إلا في حالات التدريب للرتب 0-8 (العقوبة: توبيخ).</li>
+            <li><b>قانون 9:</b> يمنع تجاوز السرعة 30 داخل الطابق الأرضي (العقوبة: تحذير).</li>
+            <li><b>قانون 10:</b> يمنع استخدام سيارة القائد/التاهو/المدرعات بدون إذن (العقوبة: توبيخ).</li>
+            <li><b>قانون 11:</b> يمنع دخول مقرات العصابات إلا بمهمة تفتيش مع 3 ضباط وكاميرا صدر (العقوبة: توبيخ).</li>
+            <li><b>قانون 12:</b> يمنع مشاركة رسائل غير مهمة براديو الشرطة (العقوبة: تحذير).</li>
+            <li><b>قانون 13:</b> يمنع صعود الطابق 2 لرتب 0-8 بدون إذن (العقوبة: توبيخ).</li>
+            <li><b>قانون 14:</b> يمنع دخول المنطقة العسكرية بدون إذن وتنسيق (العقوبة: توبيخ).</li>
+            <li><b>قانون 15:</b> يمنع التحاور مع المدنيين أثناء المقابلات (العقوبة: تحذير).</li>
+            <li><b>قانون 16:</b> يمنع استحداث فعاليات في الطوابق إلا بإذن القائد/النواب (العقوبة: توبيخ).</li>
+            <li><b>قانون 17:</b> يمنع استخراج المركبات الشخصية بالطابق 0 (العقوبة: توبيخ).</li>
+            <li><b>قانون 18:</b> إساءة استخدام شات الفصائل بالديسكورد (تحذير إلى توبيخ).</li>
+            <li><b>قانون 19:</b> للرتب 9-11 التقصير بالتقارير الأسبوعية (تحذير، عند 3 تحذيرات تخفيض رتبة).</li>
+            <li><b>قانون 20:</b> يمنع لرتب 0-8 استخدام راديو الفصائل (العقوبة: توبيخ).</li>
+            <li><b>قانون 21:</b> قرارات رتبة 11 المشرفين (إدارة المهام وتلبيس البدل، خروج مشرف واحد للإجازة).</li>
+            <li><b>قانون 22:</b> يمنع طلب المستندات أو الاعتقال داخل مناطق العمل (العقوبة: تحذير).</li>
+          </ul>`;
+
+        if (s === 'rules') return `
+          <h3>👮 قواعد جماعة الشرطة OneState</h3>
+          <ul>
+            <li>1. اتهامات زائفة/بلا أساس ضد مدني (العقوبة: فصل مع العقوبة القانونية).</li>
+            <li>2. احتجاز و/أو سجن مدني بدون سبب (العقوبة: فصل).</li>
+            <li>3. مهاجمة المدنيين بالأيدي/الأسلحة/الصاعق بدون سبب RP (العقوبة: فصل).</li>
+            <li>4. التصرف غير المحترم تجاه الزملاء أو المدنيين (العقوبة: توبيخ واحد).</li>
+            <li>5. استخدام القوة/السلاح/الصاعق بدون تحذير (العقوبة: توبيخ واحد).</li>
+            <li>6. عدم اتباع أوامر الرؤساء والتسلسل الهرمي (العقوبة: توبيخ واحد).</li>
+            <li>7. انتهاك قوانين الخادم (العقوبة: توبيخ + عقوبة الخادم).</li>
+            <li>8. استخدام مركبات العمل لأغراض شخصية (العقوبة: توبيخ واحد).</li>
+            <li>9. استخدام المركبات الشخصية لتنفيذ مهام الشرطة (العقوبة: توبيخ واحد).</li>
+            <li>10. إهانة اللاعبين/الموظفين خارج الـ RP (العقوبة: توبيخ واحد).</li>
+            <li>11. اعتقال شخص دون إبداء سبب صوتياً أو كتابياً (العقوبة: تحذير واحد).</li>
+            <li>12. عدم الرد في Discord أو عدم المشاركة بالأنشطة (العقوبة: تحذير واحد).</li>
+            <li>13. اعتقال شخص دون التقاط شاشة لقائمة مخالفاته (العقوبة: تحذير واحد).</li>
+            <li>14. عدم تقديم معلومات حول الأشخاص المعتقلين (العقوبة: تحذير واحد).</li>
+            <li>15. عدم لعب دور تمثيلي صحيح (العقوبة: تحذير واحد).</li>
+          </ul>
+          <p style="color:#EF4444; font-weight:bold;">* تحذيران = توبيخ واحد | 3 توبيخات = الإزالة من الشرطة.</p>`;
+
+        if (s === 'promo') return `
+          <h3>📜 نظام الإجازات والتهدئة للشرطة</h3>
+          <ul>
+            <li><b>قوانين الإجازة:</b> يمنع الكتابة بالراديو، التواجد بالمركز، أو استخدام الصلاحيات والمعدات أثناء الإجازة.</li>
+            <li>تستثنى قيادة الفصيل من قيود الإجازات.</li>
+          </ul>`;
+
         if (s === 'micro') return `
-          <div class="cmd-item"><span>تحذير الشرطة، إذا لم تتوقف سأستخدم الصاعق</span><button class="btn-copy" onclick="copyTxt('تحذير الشرطة هنا، إذا لم تتوقف، سأستخدم الصاعق /me !!!!ضدكم')">نسخ</button></div>
-          <div class="cmd-item"><span>اخفضوا أسلحتكم وإلا سنستخدم الصاعق</span><button class="btn-copy" onclick="copyTxt('سيدي/سيدتي ،اخفضوا أسلحتكم وإلا سنستخدم /me !!!!الصاعق ضدكم')">نسخ</button></div>
-          <div class="cmd-item"><span>طلب إذن دخول مكتب القائد</span><button class="btn-copy" onclick="copyTxt('/flobby طلب اذن دخول مكتب القائد او نوابه')">نسخ</button></div>
-          <div class="cmd-item"><span>فالخدمة</span><button class="btn-copy" onclick="copyTxt('/flobby فالخدمة')">نسخ</button></div>
-        `;
-        return `تنطبق كافة اللوائح والأنظمة الصادرة من قيادة الشرطة برئاسة Diva Raghad ونوابها.`;
+          <h3>📻 مايكرو الراديو وراديو الفصائل</h3>
+          <div class="cmd-item"><span class="cmd-text">/flobby فالخدمة</span><button class="btn-copy" onclick="copyTxt('/flobby فالخدمة')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby خارج الخدمة</span><button class="btn-copy" onclick="copyTxt('/flobby خارج الخدمة')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby طلب اذن دخول مكتب القائد او نوابه</span><button class="btn-copy" onclick="copyTxt('/flobby طلب اذن دخول مكتب القائد او نوابه')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby طلب أذن دخول مكتب الأشراف</span><button class="btn-copy" onclick="copyTxt('/flobby طلب أذن دخول مكتب الأشراف')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby طلب أذن صعود طابق 2 لأخذ دورية</span><button class="btn-copy" onclick="copyTxt('/flobby طلب أذن صعود طابق 2 لأخذ دورية')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby !!طلب دعم</span><button class="btn-copy" onclick="copyTxt('/flobby !!طلب دعم')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby الموقع</span><button class="btn-copy" onclick="copyTxt('/flobby الموقع')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby بالطريق</span><button class="btn-copy" onclick="copyTxt('/flobby بالطريق')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby العودة الى المركز</span><button class="btn-copy" onclick="copyTxt('/flobby العودة الى المركز')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby طلب وحدة نقل</span><button class="btn-copy" onclick="copyTxt('/flobby طلب وحدة نقل')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby استجابة</span><button class="btn-copy" onclick="copyTxt('/flobby استجابة')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby حالة رهينة</span><button class="btn-copy" onclick="copyTxt('/flobby حالة رهينة')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby اطلاق نار</span><button class="btn-copy" onclick="copyTxt('/flobby اطلاق نار')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby الوضع امن</span><button class="btn-copy" onclick="copyTxt('/flobby الوضع امن')">نسخ</button></div>
+
+          <h3>📢 مايكرو التحذيرات و /me</h3>
+          <div class="cmd-item"><span class="cmd-text">تحذير الشرطة هنا، إذا لم تتوقف، سأستخدم الصاعق /me !!!!ضدكم</span><button class="btn-copy" onclick="copyTxt('تحذير الشرطة هنا، إذا لم تتوقف، سأستخدم الصاعق /me !!!!ضدكم')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">سيدي/سيدتي ،اخفضوا أسلحتكم وإلا سنستخدم /me !!!!الصاعق ضدكم</span><button class="btn-copy" onclick="copyTxt('سيدي/سيدتي ،اخفضوا أسلحتكم وإلا سنستخدم /me !!!!الصاعق ضدكم')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">تواجدك لأكثر من دقيقة داخل المنطقة !! يتسبب في /me !!!اعتقالك !! يرجى المغادرة الان او سوف يتم اعتقالك</span><button class="btn-copy" onclick="copyTxt('تواجدك لأكثر من دقيقة داخل المنطقة !! يتسبب في /me !!!اعتقالك !! يرجى المغادرة الان او سوف يتم اعتقالك')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">مرحبًا سيدي/سيدتي، أحتاج إلى رؤية جواز سفرك، يرجى التعاون معنا.</span><button class="btn-copy" onclick="copyTxt('مرحبًا سيدي/سيدتي، أحتاج إلى رؤية جواز سفرك، يرجى التعاون معنا.')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">جواز السفر نظيف، شكرًا سيدي/سيدتي على دعمكم، أتمنى لك يومًا سعيدًا.!</span><button class="btn-copy" onclick="copyTxt('جواز السفر نظيف، شكرًا سيدي/سيدتي على دعمكم، أتمنى لك يومًا سعيدًا.!')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">أنا الضابط (اسمك) سيدي/سيدتي، أنا أعتقلك بسبب /me مخالفتك للأنظمة والقوانين السارية في الدولة. لديك الحق في التزام الصمت والحصول على محامٍ. كل ما تقوله يمكن استخدامه ضدك.</span><button class="btn-copy" onclick="copyTxt('أنا الضابط (اسمك) سيدي/سيدتي، أنا أعتقلك بسبب /me مخالفتك للأنظمة والقوانين السارية في الدولة. لديك الحق في التزام الصمت والحصول على محامٍ. كل ما تقوله يمكن استخدامه ضدك.')">نسخ</button></div>
+
+          <h3>🚨 المخالفات الجنائية [+20 دقيقة]</h3>
+          <ul>
+            <li>1.1 الاستيلاء على مؤسسات الدولة</li>
+            <li>1.2 الاستيلاء على السلطة بالقوة</li>
+            <li>1.3 أخذ الرهائن أو الاختطاف</li>
+            <li>1.4 الاصطدام المميت بالمشاة</li>
+            <li>1.5 محاولة السرقة</li>
+            <li>1.6 سرقة ضابط شرطة</li>
+            <li>1.7 دخول غير منسق إلى الأراضي المحمية بالقانون</li>
+            <li>1.8 الاصطدام بالمشاة</li>
+            <li>1.9 إشهار سلاح في مكان عام</li>
+            <li>1.10 رشوة ضابط شرطة</li>
+          </ul>
+
+          <h3>👤 المخالفات المدنية [+10 دقائق]</h3>
+          <ul>
+            <li>2.1 إتلاف ممتلكات الدولة</li>
+            <li>2.2 الإضرار أو إتلاف بالممتلكات الخاصة</li>
+            <li>2.3 مكالمات كاذبة للشرطة و/أو خدمات الطوارئ</li>
+            <li>2.4 الفجور (تشغيل الموسيقى بعد طلب إيقافها / البصق في وجه شخص)</li>
+            <li>2.5 التهديد بالقتل</li>
+            <li>2.6 إهانة موظف حكومي</li>
+            <li>2.7 الابتزاز</li>
+          </ul>
+
+          <h3>📑 المخالفات الإدارية [+5 دقائق]</h3>
+          <ul>
+            <li>3.1 مقاومة الاعتقال</li>
+            <li>3.2 عصيان ضابط الشرطة</li>
+            <li>3.3 المساعدة في مقاومة الاعتقال</li>
+            <li>3.4 انتهاك قواعد المرور (القيادة بالمسار المعاكس، الاصطدام بالأعمدة، تجاوز الإشارة الحمراء)</li>
+            <li>3.5 الاعتداء على مدني (ضرب)</li>
+            <li>3.6 رفض تقديم المستندات المطلوبة (الهوية، مستندات السيارة، رخصة السلاح)</li>
+          </ul>`;
+
+        if (s === 'rp') return commonRP;
       } else if (f === 'army') {
-        if (s === 'command') return `<b>قائد فصيل الجيش:</b> Mrr Turki<br><b>النواب:</b> Ahmed aljburi - Im Carlo<br><b>العقيد العام:</b> Jeremi Cowan - Al Osama`;
-        if (s === 'teams') return `1. فريق المحاورين (Jeremi Cowan)<br>2. فريق المرشدين (Al Osama)<br>3. فريق القوات الخاصة (Mr Reflex)<br>4. فريق الحدث (Deshwan Giosue)<br>5. فريق الحماية<br>6. فريق التدريب<br>7. فريق المراجعات (vixes Ly)<br>8. فريق الفعاليات (Emoo Alll)<br>9. فريق الانضباط (Mrkhalid Qatouf)<br>10. فريق الإعلام`;
-        return `قوانين وانظمة فصيل الجيش العسكري ملزمة للجميع.`;
-      } else {
-        if (s === 'command') return `<b>قائد التحالف الطبي:</b> Mi Do<br><b>النواب:</b> Oussy Dz - Dr sarahh`;
-        if (s === 'teams') return `1. قسم المقابلات (Faisal Alenazi)<br>2. قسم التنظيم (Nawaf Xcc)<br>3. قسم الإرشاد (Pretty sun)<br>4. قسم المتابعة والتدقيق<br>5. قسم الدوريات<br>6. قسم الفعاليات`;
+        if (s === 'command') return `
+          <h3>🎖️ قيادة فصيل الجيش</h3>
+          <p><b>قائد فصيل الجيش:</b> Mrr Turki</p>
+          <p><b>النواب:</b> Ahmed aljburi | Im Carlo</p>
+          <p><b>العقيد العام:</b> Jeremi Cowan | Al Osama</p>`;
+
+        if (s === 'teams') return `
+          <h3>🎖️ فرق فصيل الجيش والقيادات</h3>
+          <ul>
+            <li><b>1. فريق المحاورين:</b> القائد (Jeremi Cowan) | النواب (Ms Afnan, Mrs Sunny, Amar Hkoma)</li>
+            <li><b>2. فريق المرشدين:</b> القائد (Al Osama) | النواب (Gamil Hobie, Kasper Oo, Sir Mohammad)</li>
+            <li><b>3. فريق القوات الخاصة:</b> القائد (Mr Reflex) | النواب (Sham Sy, Mr Mohaamed)</li>
+            <li><b>4. فريق الحدث:</b> القائد (Deshwan Giosue) | النواب (Abdo Liibya, Mr Araboosh)</li>
+            <li><b>5. فريق الحماية:</b> القائد (لايوجد) | النواب (Mohamed Mmm, Ms Roz)</li>
+            <li><b>6. فريق التدريب:</b> القائد (لايوجد) | النواب (FINNBARR mx, 个《Ai Aboud》★个, Hayden Ya)</li>
+            <li><b>7. فريق المراجعات:</b> القائد (vixes Ly) | النائبة (Loly Libya)</li>
+            <li><b>8. فريق الفعاليات:</b> القائدة (Emoo Alll) | النواب (Hema Lhwty, Shadow Marko)</li>
+            <li><b>9. فريق الانضباط:</b> القائد (Mrkhalid Qatouf) | النواب (jawaher, Bu Fahad)</li>
+            <li><b>10. فريق الإعلام:</b> القائد (لايوجد) | النواب (لايوجد)</li>
+          </ul>
+          <h3>📋 ملخص مهام الفرق القيادية لفصيل الجيش</h3>
+          <ul>
+            <li><b>فريق المحاورين:</b> استقبال المواطنين والمتقدمين للجيش، فحص سجلاتهم، وإجراء المقابلات.</li>
+            <li><b>فريق المرشدين:</b> استقبال المجندين الجدد بعد استلام الزي، تعريفهم بالقوانين والممنوعات، وأقسام القاعدة.</li>
+            <li><b>فريق التدريب:</b> تنظيم التدريبات العسكرية، تطوير مهارات التصويب الإيم، أساليب الدفاع، والتعامل مع إطلاق النار.</li>
+            <li><b>فريق الحدث:</b> استدعاء الجنود للمركز قبل الأحداث، توزيع المهام، وتنظيم تواجدهم بالمستودع.</li>
+            <li><b>فريق القوات الخاصة:</b> تفتيش ومراقبة النقاط القريبة من القاعدة، حمايتها من التهديدات وهجمات العصابات.</li>
+            <li><b>فريق الفعاليات:</b> تنظيم الأنشطة والمسابقات داخل القاعدة، والفعاليات المشتركة مع الشرطة والطب.</li>
+            <li><b>فريق الحماية:</b> تأمين القاعدة في أوقات التقديم والأحداث، تنظيم الحراسة ومراقبة المداخل.</li>
+            <li><b>فريق الانضباط:</b> مراقبة الالتزام بالقوانين العسكرية، توثيق المخالفات بالأدلة، ورفعها للقيادة.</li>
+            <li><b>فريق الإعلام:</b> توثيق الفعاليات والأنشطة بالتصوير والتغطية الإعلامية وإبراز إنجازات الفصيل.</li>
+          </ul>`;
+
+        if (s === 'internal') return `
+          <h3>🪖 قوانين فصيل الجيش الداخلية</h3>
+          <ul>
+            <li>1) يمنع تواجد الرتب من 0 إلى 4 عند البوابة B1، ويمنع تواجد الرتب من 5 إلى 8 عند البوابة B2.</li>
+            <li>2) يمنع اتهام شخص بالفساد من دون دليل.</li>
+            <li>3) لا يمكن للجنود إعطاء أوامر بالراديو، الأوامر تصدر من رتب 9+ (باستثناء قائد الحدث أثناء الأحداث).</li>
+            <li>4) يمنع دخول برج الراديو إلا بإذن لجميع العساكر باستثناء رتبة 9+.</li>
+            <li>5) السرعة المحددة داخل القاعدة العسكرية بين (30-40) ويُمنع تجاوزها نهائياً.</li>
+            <li>6) يمنع استخدام الراديو المشترك للفصائل لمن هم دون رتبة 9.</li>
+            <li>7) يمنع على الرتب من 0 إلى 8 استخدام أو إظهار مركبة عسكرية دون إذن مسبق عبر الراديو من الجنرالات.</li>
+            <li>8) يمنع استخدام الراديو الخاص بالمجازين من قبل الأفراد غير المجازين.</li>
+            <li>9) يحظر دخول القاعدة/المقر أو التزود بالعتاد أو القتال أو استخدام الراديو أثناء الإجازة إلا لرتب 9-13.</li>
+            <li>10) يُمنع منعاً باتاً القيام بأي حركات استعراضية أو الرقص داخل القاعدة وأثناء الاصطفاف أو الفعاليات.</li>
+            <li>11) يُمنع فتح "المايك" أثناء الاصطفاف.</li>
+            <li>12) يُمنع تنظيم أي فعالية أو تدريب عسكري إلا بموافقة القيادة العليا وبحضور الجنرالات.</li>
+            <li>13) يُمنع تنفيذ مهام المراقبة أو الاستطلاع باستخدام المركبات.</li>
+            <li>14) يُمنع تواجد أي فرد داخل المقر أثناء المقابلات باستثناء فريق المحاورين.</li>
+            <li>15) يُمنع تواجد الأفراد المجازين بالقرب من القاعدة أثناء الفعاليات.</li>
+            <li>16) مسموح لرتبة 9-10 الخروج من القاعدة بدون إذن من 1 صباحاً حتى 9 صباحاً، وتستثنى رتبة 11 بأي وقت.</li>
+            <li>17) يمنع دخول المقر أو برج الراديو أثناء أحداث سرقة الموارد (باستثناء القائد ونوابه).</li>
+            <li>18) يجب طلب إذن باستخدام (/flobby) والموافقة عليه قبل عمل مهمة المراقبة.</li>
+          </ul>`;
+
+        if (s === 'rules') return `
+          <h3>🎖️ قواعد فصيل الجيش في OneState</h3>
+          <ul>
+            <li>1. التصرف بطريقة غير محترمة تجاه الزملاء والمدنيين (العقوبة: توبيخ أو فصل حسب القائد).</li>
+            <li>2. مخاطبة الرتب العليا بدون "سيدي" / "سيدتي" (العقوبة: تحذير واحد).</li>
+            <li>3. يحظر أي نوع من الفساد أو طلب/قبول الرشوة (العقوبة: فصل الجندي).</li>
+            <li>4. استخدام الأسلحة النارية/القوة دون تحذير وبدون سبب مقنع (العقوبة: توبيخ أو فصل).</li>
+            <li>5. أخذ السيارة الخاصة "Carrier" دون إذن الجنرالات/النواب/القائد (العقوبة: تحذير واحد).</li>
+            <li>6. عدم اتباع أوامر الجنرالات أو النواب والتسلسل الهرمي (العقوبة: توبيخ أو فصل).</li>
+            <li>7. استخدام مركبات الجيش لأغراض شخصية (العقوبة: توبيخ أو فصل).</li>
+            <li>8. انتهاك قواعد الخادم (السيرفر) (العقوبة: توبيخ أو فصل).</li>
+            <li>9. مغادرة القاعدة العسكرية بالزي الرسمي و/أو السلاح بدون إذن (العقوبة: توبيخ واحد).</li>
+          </ul>
+          <p style="color:#EF4444; font-weight:bold;">* كل تحذيرين = توبيخ واحد | 3 توبيخات = الإزالة من الجيش.</p>`;
+
+        if (s === 'promo') return `
+          <h3>⚡ فترة التهدئة الخاصة بالإجازات للجيش</h3>
+          <ul>
+            <li>إجازة يوم إلى يومين: فترة تهدئة يومين.</li>
+            <li>إجازة 3 إلى 6 أيام: فترة تهدئة 6 أيام.</li>
+            <li>إجازة 7 إلى 14 يوم: فترة تهدئة 14 يوماً (حسب تقييم القادة).</li>
+            <li>انقطاع اتصال المواطن لمدة 5 دقائق أثناء المقابلات: فترة تهدئة يوم واحد.</li>
+            <li>رسوب المواطن في المقابلة: فترة تهدئة يوم واحد.</li>
+            <li>وجود عطل في ديسكورد المواطن: استبعاد مع تهدئة يوم واحد.</li>
+            <li>قيام المواطن بأي تخريب: استبعاد مع فترة تهدئة 3 أيام.</li>
+            <li><b>فصل عدم النشاط:</b> يُطبق في حال عدم التفاعل لمدة 8 أيام وأكثر.</li>
+          </ul>`;
+
+        if (s === 'micro') return `<p>لا توجد أوامر مايكرو خاصة بالجيش حالياً، يلتزم الجميع بالراديو العسكري المباشر.</p>`;
+        if (s === 'rp') return commonRP;
+      } else { // Medical
+        if (s === 'command') return `
+          <h3>🚑 قيادة فصيل التحالف الطبي</h3>
+          <p><b>قائد التحالف الطبي:</b> Mi Do</p>
+          <p><b>نائب التحالف الطبي:</b> Oussy Dz</p>
+          <p><b>نائبة التحالف الطبي:</b> Dr sarahh</p>`;
+
+        if (s === 'teams') return `
+          <h3>📋 أقسام فصيل التحالف الطبي</h3>
+          <ul>
+            <li><b>1. قسم المقابلات:</b> قائد القسم (Faisal Alenazi) | نواب القسم (Dr edris, Doc Meme)</li>
+            <li><b>2. قسم التنظيم:</b> قائد القسم (Nawaf Xcc) | نواب القسم (Nashat aliraqi, Dr heart)</li>
+            <li><b>3. قسم الإرشاد:</b> قائدة القسم (Pretty sun) | نواب القسم (Muawiya jo, Dr Heero)</li>
+            <li><b>4. قسم المتابعة والتدقيق:</b> القائد (-) | نواب القسم (Dr Lr, Shode mazika)</li>
+            <li><b>5. قسم الدوريات:</b> القائد (-) | نواب القسم (Dr doody, Ms raghdd)</li>
+            <li><b>6. قسم الفعاليات:</b> فعاليات طبية شاملة.</li>
+          </ul>`;
+
+        if (s === 'internal') return `
+          <h3>🚑 القوانين الداخلية لفصيل التحالف الطبي</h3>
+          <ul>
+            <li>1) استخدام الراديو المشترك للرتب (6 فما فوق) فقط (العقوبة: إنذار MD4.2).</li>
+            <li>2) في حال وجود رتب (7 أو 8 أو 9)، لا يُسمح לרتب (6) بتجاوزهم بالراديو (العقوبة: إنذار MD4.2).</li>
+            <li>3) يُمنع استخدام الفلوبي أثناء الإجازة باستثناء القائد والنواب (العقوبة: إنذار MD4.2).</li>
+            <li>4) الالتزام برفع التقرير الأسبوعي إلزامي للرتب 6 و7 (تحذير أول / ثاني / تخفيض رتبة).</li>
+            <li>5) يمنع رفض التعاون مع رتب عليا من الفصائل الأخرى (العقوبة: إنذار MD4.2).</li>
+            <li>6) يُمنع استخراج أو استخدام الباصات إلا للفعاليات بإذن مسؤول (العقوبة: إنذار MD4.2).</li>
+            <li>7) يُمنع استخدام الراديو بأسلوب غير مهني (العقوبة: إنذار MD4.2 أو MD4.1).</li>
+            <li>8) يُمنع التحدث بالهاتف، الرقص، الإزعاج بالموسيقى، أو الحركات الاستعراضية بالمستشفى (إنذار MD4.2).</li>
+            <li>9) يمنع الذهاب للقاعدة العسكرية أو الشرطة بدون سبب يستوجب ذلك (إنذار MD4.2).</li>
+            <li>10) يمنع استخدام الأسلحة النارية في الفعاليات منعاً باتاً (العقوبة: فصل MD5).</li>
+            <li>11) الالتزام بالسرعة داخل طابق صفر (10-20) ويمنع تجاوزها (إنذار MD4.2).</li>
+            <li>12) أثناء سريان الإجازة يمنع تقديم الإجراءات والخدمات الطبية (إنذار MD4.2).</li>
+          </ul>`;
+
+        if (s === 'promo') return `
+          <h3>⭐ نظام الإجازات والتهدئة للتحالف الطبي</h3>
+          <ul>
+            <li>يبدأ استحقاق الإجازة من رتبة (3) وعبر الفورم المخصص.</li>
+            <li>قبول إجازات رتب 5/6 يتطلب موافقة قائد المجموعة.</li>
+            <li><b>إجازة يوم واحد:</b> فترة تهدئة يومين.</li>
+            <li><b>إجازة 3 أيام:</b> فترة تهدئة 6 أيام.</li>
+            <li><b>إجازة 7 أيام:</b> فترة تهدئة 14 يوماً (حسب تقييم القادة).</li>
+          </ul>`;
+
         if (s === 'micro') return `
-          <div class="cmd-item"><span>إرشاد ط2</span><button class="btn-copy" onclick="copyTxt('/flobby لأي استفسار يخص الارشاد او كيفية الكتابة بالشات الازرق .. قسم الارشاد والتوجيه في خدمتكم ط2')">نسخ</button></div>
-          <div class="cmd-item"><span>نداء الممرضين</span><button class="btn-copy" onclick="copyTxt('/flobby على الممرضين عدم الخروج بدون اذن تجنبا للعقوبات')">نسخ</button></div>
-        `;
-        return `اللوائح الطبية الخاصة بالتحالف الطبي بالكامل.`;
+          <h3>💬 مايكرو أقسام التحالف الطبي (/flobby)</h3>
+          <b>🗣️ قسم المقابلات:</b>
+          <div class="cmd-item"><span class="cmd-text">/flobby رتبة 0 اللي مكمل نقاط واخذ ارشاد و ارشاد RP ومحتاج مقابله يتوجه ط2 مع اذن صعود</span><button class="btn-copy" onclick="copyTxt('/flobby رتبة 0 اللي مكمل نقاط واخذ ارشاد و ارشاد RP ومحتاج مقابله يتوجه ط2 مع اذن صعود')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby على الممرضين رتبه 0 التأكد من اخذ حصص ارشاد قبل دخولكم للمقابلات شاكرين تعاونكم</span><button class="btn-copy" onclick="copyTxt('/flobby على الممرضين رتبه 0 التأكد من اخذ حصص ارشاد قبل دخولكم للمقابلات شاكرين تعاونكم')">نسخ</button></div>
+
+          <b>🗒️ قسم التنظيم:</b>
+          <div class="cmd-item"><span class="cmd-text">/flobby على الممرضين عدم الخروج بدون اذن تجنبا للعقوبات</span><button class="btn-copy" onclick="copyTxt('/flobby على الممرضين عدم الخروج بدون اذن تجنبا للعقوبات')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby النداء الأول : الرجاء من الممرضين المتصلين 0/1/2/3/4/5/التوجه للطابق 1 فورا تجنبا للعقوبات</span><button class="btn-copy" onclick="copyTxt('/flobby النداء الأول : الرجاء من الممرضين المتصلين 0/1/2/3/4/5/التوجه للطابق 1 فورا تجنبا للعقوبات')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby النداء الثاني الرجاء من الممرضين المتصلين 1/2/3/4/5 التوجه لطابق 1 فورا تجنبا للعقوبات</span><button class="btn-copy" onclick="copyTxt('/flobby النداء الثاني الرجاء من الممرضين المتصلين 1/2/3/4/5 التوجه لطابق 1 فورا تجنبا للعقوبات')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby النداء الثالث الأخير : الرجاء من الممرضين المتصلين 0/1/2/3/4/5/التوجه للطابق 1 فورا تجنبا للعقوبات</span><button class="btn-copy" onclick="copyTxt('/flobby النداء الثالث الأخير : الرجاء من الممرضين المتصلين 0/1/2/3/4/5/التوجه للطابق 1 فورا تجنبا للعقوبات')">نسخ</button></div>
+
+          <b>📚 قسم الإرشاد:</b>
+          <div class="cmd-item"><span class="cmd-text">/flobby لأي استفسار يخص الارشاد او كيفية الكتابة بالشات الازرق .. قسم الارشاد والتوجيه في خدمتكم ط2</span><button class="btn-copy" onclick="copyTxt('/flobby لأي استفسار يخص الارشاد او كيفية الكتابة بالشات الازرق .. قسم الارشاد والتوجيه في خدمتكم ط2')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby على الرتب 0/1/2/3/4/5 التوجه الى ط2 الان سيقام جلسة ارشاد Rp يرجى الالتزام ويلي يتأخر لن يتم ادراج اسمه في التقرير ... قسم الارشاد و التوجيه</span><button class="btn-copy" onclick="copyTxt('/flobby على الرتب 0/1/2/3/4/5 التوجه الى ط2 الان سيقام جلسة ارشاد Rp يرجى الالتزام ويلي يتأخر لن يتم ادراج اسمه في التقرير ... قسم الارشاد و التوجيه')">نسخ</button></div>
+
+          <b>🗂️ قسم المتابعة والتدقيق:</b>
+          <div class="cmd-item"><span class="cmd-text">/flobby من أكمل متطلبات الترقية للرتب (1,2,3,4,5)، يُرجى طلب إذن الصعود إلى الطابق الثاني لمراجعة المتطلبات.</span><button class="btn-copy" onclick="copyTxt('/flobby من أكمل متطلبات الترقية للرتب (1,2,3,4,5)، يُرجى طلب إذن الصعود إلى الطابق الثاني لمراجعة المتطلبات.')">نسخ</button></div>
+          <div class="cmd-item"><span class="cmd-text">/flobby قسم المتابعة والتدقيق متاح لدعمكم في متطلبات الترقية، وللاستفسارات يُرجى طلب إذن صعود إلى الطابق الثاني.</span><button class="btn-copy" onclick="copyTxt('/flobby قسم المتابعة والتدقيق متاح لدعمكم في متطلبات الترقية، وللاستفسارات يُرجى طلب إذن صعود إلى الطابق الثاني.')">نسخ</button></div>`;
+
+        if (s === 'rules') return `<p>تُطبق اللوائح والأنظمة الداخلية المقرة من قيادة التحالف الطبي (Mi Do, Oussy Dz, Dr sarahh).</p>`;
+        if (s === 'rp') return commonRP;
       }
     }
 
     function copyTxt(text) {
       navigator.clipboard.writeText(text);
-      alert("تم النسخ بنجاح!");
+      alert("تم نسخ النص بنجاح!");
     }
 
     function openModal() { document.getElementById('modal-feedback').classList.add('active'); }
