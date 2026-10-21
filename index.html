@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>فصائل Lynwood | Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg-main: #0B0F19;
+      --card-bg: rgba(22, 29, 47, 0.9);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --primary: #4F46E5;
+      --police-blue: #2563EB;
+      --army-green: #10B981;
+      --med-red: #EF4444;
+      --orange-btn: #E66A15;
+      --text-main: #F3F4F6;
+      --text-muted: #9CA3AF;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: radial-gradient(circle at 50% 10%, rgba(79, 70, 229, 0.15), transparent 60%);
+      padding: 15px;
+    }
+    .screen { display: none; width: 100%; max-width: 500px; }
+    .screen.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .lobby-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 40px 25px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+    }
+    .lobby-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 30px; text-shadow: 0 0 15px rgba(255,255,255,0.2); }
+    .btn-complete {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: white;
+      border: none;
+      padding: 14px 45px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+      transition: all 0.2s;
+    }
+    .btn-complete:hover { transform: scale(1.03); }
+
+    .factions-container { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+    .faction-card {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 15px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .faction-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.3); }
+
+    .menu-list { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+    .menu-item {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .menu-item .arrow { color: #818CF8; font-size: 0.9rem; }
+
+    .bottom-actions { display: flex; gap: 10px; margin-top: 20px; }
+    .btn-back, .btn-finish {
+      flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; text-align: center;
+    }
+    .btn-back { background: rgba(255,255,255,0.1); color: white; }
+    .btn-finish { background: rgba(16, 185, 129, 0.2); color: #34D399; border: 1px solid #10B981; }
+
+    .btn-feedback {
+      background: linear-gradient(135deg, #E66A15, #C25103);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0 10px 0;
+      box-shadow: 0 4px 15px rgba(230, 106, 21, 0.4);
+    }
+
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.8);
+      display: none; justify-content: center; align-items: center; z-index: 999;
+      padding: 15px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-card {
+      background: #111827; border: 1px solid var(--card-border);
+      border-radius: 20px; width: 100%; max-width: 480px; padding: 25px; max-height: 90vh; overflow-y: auto;
+    }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; margin-bottom: 6px; font-size: 0.9rem; color: var(--text-muted); }
+    .form-control {
+      width: 100%; background: #1F2937; border: 1px solid #374151; color: white;
+      padding: 12px; border-radius: 10px; outline: none; font-size: 0.95rem;
+    }
+    .btn-submit {
+      width: 100%; background: #6366F1; color: white; border: none; padding: 14px;
+      border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 1rem;
+    }
+
+    .content-box {
+      background: rgba(17, 24, 39, 0.95);
+      border: 1px solid var(--card-border);
+      border-radius: 15px;
+      padding: 20px;
+      max-height: 380px;
+      overflow-y: auto;
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+    .team-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    .team-table th, .team-table td { border: 1px solid #374151; padding: 8px; text-align: center; font-size: 0.85rem; }
+    .team-table th { background: #1F2937; color: #60A5FA; }
+    
+    .cmd-item {
+      background: #1F2937; padding: 10px; border-radius: 8px; margin-bottom: 8px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .btn-copy { background: #374151; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <!-- Screen 1: Lobby -->
+  <div id="screen-lobby" class="screen active">
+    <div class="lobby-box">
+      <h1 class="lobby-title">أهلاً بك في فصائل Lynwood</h1>
+      <button class="btn-complete" onclick="showScreen('screen-factions')">إكمال</button>
+    </div>
+  </div>
+
+  <!-- Screen 2: Select Faction -->
+  <div id="screen-factions" class="screen">
+    <div class="lobby-box" style="text-align: right;">
+      <h2 style="text-align: center; margin-bottom: 20px;">إختر الفصيل المفضل</h2>
+      <div class="factions-container">
+        <div class="faction-card" onclick="selectFaction('police')">
+          <div><h3 style="color:#60A5FA;">فصيل الشرطة</h3><p style="font-size:0.8rem; color:#9CA3AF;">Police Department</p></div>
+          <i class="fa-solid fa-shield-halved" style="font-size: 1.5rem; color:#60A5FA;"></i>
+        </div>
+        <div class="faction-card" onclick="selectFaction('army')">
+          <div><h3 style="color:#34D399;">فصيل الجيش</h3><p style="font-size:0.8rem; color:#9CA3AF;">Military Forces</p></div>
+          <i class="fa-solid fa-person-military-rifle" style="font-size: 1.5rem; color:#34D399;"></i>
+        </div>
+        <div class="faction-card" onclick="selectFaction('med')">
+          <div><h3 style="color:#F87171;">التحالف الطبي</h3><p style="font-size:0.8rem; color:#9CA3AF;">Medical Alliance</p></div>
+          <i class="fa-solid fa-house-medical" style="font-size: 1.5rem; color:#F87171;"></i>
+        </div>
+      </div>
+      <div class="bottom-actions">
+        <button class="btn-back" onclick="showScreen('screen-lobby')">الرجوع</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 3: Faction Options Menu -->
+  <div id="screen-menu" class="screen">
+    <div class="lobby-box" style="text-align: right;">
+      <p id="menu-subtitle" style="color: #818CF8; font-size: 0.85rem; text-align: center;">الفصيل المحدد</p>
+      <h2 id="menu-title" style="text-align: center; margin-bottom: 20px;">فصيل الشرطة</h2>
+      
+      <div class="menu-list">
+        <div class="menu-item" onclick="openSection('rules')"><span>قوانين الفصيل</span><span class="arrow">عرض ←</span></div>
+        <div class="menu-item" onclick="openSection('internal')"><span>القوانين الداخلية</span><span class="arrow">عرض ←</span></div>
+        <div class="menu-item" onclick="openSection('promo')"><span>نظام الترقية</span><span class="arrow">عرض ←</span></div>
+        <div class="menu-item" onclick="openSection('teams')"><span>فرق الفصيل</span><span class="arrow">عرض ←</span></div>
+        <div class="menu-item" onclick="openSection('rp')"><span>قواعد اللعب التمثيلي</span><span class="arrow">عرض ←</span></div>
+        <div class="menu-item" onclick="openSection('command')"><span>القيادات</span><span class="arrow">عرض ←</span></div>
+        <div class="menu-item" onclick="openSection('micro')"><span>المايكرو</span><span class="arrow">عرض ←</span></div>
+      </div>
+
+      <div class="bottom-actions">
+        <button class="btn-back" onclick="showScreen('screen-factions')">الرجوع</button>
+        <button class="btn-finish" onclick="showScreen('screen-lobby')">الانتهاء</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 4: Content Viewer -->
+  <div id="screen-content" class="screen">
+    <div class="lobby-box" style="text-align: right;">
+      <p id="content-subtitle" style="color: #818CF8; font-size: 0.85rem; text-align: center;">قسم المعلومات</p>
+      <h2 id="content-title" style="text-align: center; margin-bottom: 15px;">عنوان القسم</h2>
+      
+      <div id="content-body" class="content-box">
+        <!-- Text content dynamically injected -->
+      </div>
+
+      <button class="btn-feedback" onclick="openModal()">
+        <i class="fa-solid fa-pen-to-square"></i> شاركنا برأيك حول هذا القسم
+      </button>
+
+      <div class="bottom-actions">
+        <button class="btn-back" onclick="showScreen('screen-menu')">الرجوع</button>
+        <button class="btn-finish" onclick="showScreen('screen-lobby')">الانتهاء</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Feedback Form -->
+  <div id="modal-feedback" class="modal-overlay">
+    <div class="modal-card">
+      <h3 style="text-align: center; margin-bottom: 5px;">شاركنا برأيك أو ملاحظتك</h3>
+      <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 20px;">سيتم إرسال ملاحظاتك وتقييمك مباشرة لإدارة الفصائل</p>
+      
+      <form onsubmit="submitForm(event)">
+        <div class="form-group">
+          <label>اختر فصيلك:</label>
+          <select id="form-faction" class="form-control">
+            <option value="police">فصيل الشرطة</option>
+            <option value="army">فصيل الجيش</option>
+            <option value="med">فصيل التحالف الطبي</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>اختر الملاحظة حول القسم:</label>
+          <select id="form-section" class="form-control">
+            <option value="قوانين الفصيل">قوانين الفصيل</option>
+            <option value="القوانين الداخلية">القوانين الداخلية</option>
+            <option value="نظام الترقية">نظام الترقية</option>
+            <option value="فرق الفصيل">فرق الفصيل</option>
+            <option value="قواعد اللعب التمثيلي">قواعد اللعب التمثيلي</option>
+            <option value="القيادات">القيادات</option>
+            <option value="المايكرو">المايكرو</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>اكتب ملاحظتك والمشاكل إن وجدت:</label>
+          <textarea id="form-note" class="form-control" rows="3" placeholder="أدخل تفاصيل وملاحظتك بشكل كامل..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>شاركنا باسمك داخل اللعبة:</label>
+          <input type="text" id="form-ingame" class="form-control" placeholder="مثال: John_Doe" required>
+        </div>
+
+        <div class="form-group">
+          <label>شاركنا في الـ User الخاص بك في الديسكورد:</label>
+          <input type="text" id="form-discord" class="form-control" placeholder="Username" required>
+        </div>
+
+        <button type="submit" class="btn-submit">إرسال التقييم</button>
+        <button type="button" class="btn-back" style="width:100%; margin-top:10px;" onclick="closeModal()">إلغاء</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    let currentFaction = 'police';
+    let currentSection = 'rules';
+
+    const factionNames = {
+      police: 'فصيل الشرطة',
+      army: 'فصيل الجيش',
+      med: 'فصيل التحالف الطبي'
+    };
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function selectFaction(f) {
+      currentFaction = f;
+      document.getElementById('menu-title').innerText = factionNames[f];
+      showScreen('screen-menu');
+    }
+
+    function openSection(sec) {
+      currentSection = sec;
+      const titles = {
+        rules: 'قوانين الفصيل',
+        internal: 'القوانين الداخلية',
+        promo: 'نظام الترقية',
+        teams: 'فرق الفصيل',
+        rp: 'قواعد اللعب التمثيلي',
+        command: 'القيادات',
+        micro: 'أوامر المايكرو'
+      };
+
+      document.getElementById('content-subtitle').innerText = factionNames[currentFaction];
+      document.getElementById('content-title').innerText = titles[sec];
+      document.getElementById('content-body').innerHTML = getContentData(currentFaction, sec);
+      showScreen('screen-content');
+    }
+
+    function getContentData(f, s) {
+      if (f === 'police') {
+        if (s === 'command') return `<b>قائد فصيل الشرطة:</b> Diva Raghad<br><b>النواب:</b> Al Sabe - Al Mohammed`;
+        if (s === 'teams') return `
+          <table class="team-table">
+            <tr><th>م</th><th>اسم الفريق</th><th>القائد</th><th>النواب</th></tr>
+            <tr><td>1</td><td>المقابلات</td><td>Al Tayeppp</td><td>Nox Ksa - Mjeed Alanzi</td></tr>
+            <tr><td>2</td><td>الإرشاد</td><td>Pablo Gaviria</td><td>Al Hazem - Al Abbas</td></tr>
+            <tr><td>3</td><td>أمن المنشآت</td><td>Don Vego</td><td>Abu Tala - Nasser Nss</td></tr>
+            <tr><td>4</td><td>الدوريات</td><td>Kakashi Vip</td><td>Hadeel Ksa - Al Krdalli</td></tr>
+            <tr><td>5</td><td>الإعلام والفعاليات</td><td>Lioness Mb</td><td>Sara Carmella</td></tr>
+            <tr><td>6</td><td>القوات الخاصة</td><td>Leader Abdo</td><td>Yousef Kwt - Al Shbh</td></tr>
+            <tr><td>7</td><td>السوات SWAT</td><td>Zedan Ksa</td><td>Al Taba - Mshary Ksa</td></tr>
+            <tr><td>8</td><td>الفحص</td><td>Al Osos</td><td>Korya Ly - Al Mado</td></tr>
+          </table>`;
+        if (s === 'micro') return `
+          <div class="cmd-item"><span>تحذير الشرطة، إذا لم تتوقف سأستخدم الصاعق</span><button class="btn-copy" onclick="copyTxt('تحذير الشرطة هنا، إذا لم تتوقف، سأستخدم الصاعق /me !!!!ضدكم')">نسخ</button></div>
+          <div class="cmd-item"><span>اخفضوا أسلحتكم وإلا سنستخدم الصاعق</span><button class="btn-copy" onclick="copyTxt('سيدي/سيدتي ،اخفضوا أسلحتكم وإلا سنستخدم /me !!!!الصاعق ضدكم')">نسخ</button></div>
+          <div class="cmd-item"><span>طلب إذن دخول مكتب القائد</span><button class="btn-copy" onclick="copyTxt('/flobby طلب اذن دخول مكتب القائد او نوابه')">نسخ</button></div>
+          <div class="cmd-item"><span>فالخدمة</span><button class="btn-copy" onclick="copyTxt('/flobby فالخدمة')">نسخ</button></div>
+        `;
+        return `تنطبق كافة اللوائح والأنظمة الصادرة من قيادة الشرطة برئاسة Diva Raghad ونوابها.`;
+      } else if (f === 'army') {
+        if (s === 'command') return `<b>قائد فصيل الجيش:</b> Mrr Turki<br><b>النواب:</b> Ahmed aljburi - Im Carlo<br><b>العقيد العام:</b> Jeremi Cowan - Al Osama`;
+        if (s === 'teams') return `1. فريق المحاورين (Jeremi Cowan)<br>2. فريق المرشدين (Al Osama)<br>3. فريق القوات الخاصة (Mr Reflex)<br>4. فريق الحدث (Deshwan Giosue)<br>5. فريق الحماية<br>6. فريق التدريب<br>7. فريق المراجعات (vixes Ly)<br>8. فريق الفعاليات (Emoo Alll)<br>9. فريق الانضباط (Mrkhalid Qatouf)<br>10. فريق الإعلام`;
+        return `قوانين وانظمة فصيل الجيش العسكري ملزمة للجميع.`;
+      } else {
+        if (s === 'command') return `<b>قائد التحالف الطبي:</b> Mi Do<br><b>النواب:</b> Oussy Dz - Dr sarahh`;
+        if (s === 'teams') return `1. قسم المقابلات (Faisal Alenazi)<br>2. قسم التنظيم (Nawaf Xcc)<br>3. قسم الإرشاد (Pretty sun)<br>4. قسم المتابعة والتدقيق<br>5. قسم الدوريات<br>6. قسم الفعاليات`;
+        if (s === 'micro') return `
+          <div class="cmd-item"><span>إرشاد ط2</span><button class="btn-copy" onclick="copyTxt('/flobby لأي استفسار يخص الارشاد او كيفية الكتابة بالشات الازرق .. قسم الارشاد والتوجيه في خدمتكم ط2')">نسخ</button></div>
+          <div class="cmd-item"><span>نداء الممرضين</span><button class="btn-copy" onclick="copyTxt('/flobby على الممرضين عدم الخروج بدون اذن تجنبا للعقوبات')">نسخ</button></div>
+        `;
+        return `اللوائح الطبية الخاصة بالتحالف الطبي بالكامل.`;
+      }
+    }
+
+    function copyTxt(text) {
+      navigator.clipboard.writeText(text);
+      alert("تم النسخ بنجاح!");
+    }
+
+    function openModal() { document.getElementById('modal-feedback').classList.add('active'); }
+    function closeModal() { document.getElementById('modal-feedback').classList.remove('active'); }
+
+    function submitForm(e) {
+      e.preventDefault();
+      alert("شكرًا لك! تم إرسال ملاحظاتك وتقييمك بنجاح بنسبة 100%.");
+      closeModal();
+    }
+  </script>
+</body>
+</html>
